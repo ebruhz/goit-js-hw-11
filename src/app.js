@@ -51,28 +51,35 @@ form.addEventListener("submit", async (e) => {
             gallery.innerHTML = "";
 
             iziToast.error({
-                title: "Hata",
-                message: "Görsel bulunamadı",
+                title: "Error",
+                message: "Image not found",
                 position: "topRight",
             });
 
             return;
         }
-        const markup = data.hits
-            .map(img => `
-                <a href="${img.largeImageURL}">
-                  <img src="${img.webformatURL}" alt="${img.tags}" width="250"/>
-                </a>
-            `)
-            .join("");
+        const markup = data.hits.map(img => `
+  <a href="${img.largeImageURL}" class="card">
+    <div class="img-wrap">
+      <img src="${img.webformatURL}" alt="${img.tags}" />
+    </div>
+
+    <div class="info">
+      <span>❤️Likes: ${img.likes}</span>
+      <span>👁Views: ${img.views}</span>
+      <span>💬Comments: ${img.comments}</span>
+      <span>⬇️Downloads: ${img.downloads}</span>
+    </div>
+  </a>
+`).join("");
 
         gallery.innerHTML = markup;
         lightbox.refresh();
 
     } catch (err) {
         iziToast.error({
-            title: "Hata",
-            message: "API isteği başarısız",
+            title: "Error",
+            message: "API request failed",
             position: "topRight",
         });
     } finally {
